@@ -3,33 +3,40 @@
 import { useState } from 'react';
 import { Quote, Heart, Share2 } from "lucide-react";
 
-// তোর সব ফাইল ইম্পোর্ট (নতুন মনীষী এলে এখানে ইম্পোর্ট করবি)
+// ডাটা ইম্পোর্ট
 import aliData from "@/data/ali.json";
 import umarData from "@/data/umar.json";
 import galibData from "@/data/galib.json";
 
-export default function QuoteList({ query }: { query: string }) {
-  // ১. বর্তমানে কোন মনীষী সিলেক্ট করা আছে তার স্টেট
+// ১. প্রপস টাইপ ঠিক করা হয়েছে (query এবং category)
+interface QuoteListProps {
+  query: string;
+  category: string;
+}
+
+export default function QuoteList({ query, category }: QuoteListProps) {
+  // বর্তমানে কোন মনীষী সিলেক্ট করা আছে তার স্টেট
   const [selectedAuthor, setSelectedAuthor] = useState("All");
 
-  // ২. সব ফাইল থেকে ডাটা নিয়ে মাস্টার লিস্ট
+  // সব ফাইল থেকে ডাটা নিয়ে মাস্টার লিস্ট
   const allQuotes = [
     ...aliData.quotes.map(q => ({ ...q, author: aliData.author })),
     ...umarData.quotes.map(q => ({ ...q, author: umarData.author })),
     ...galibData.quotes.map(q => ({ ...q, author: galibData.author })),
   ];
 
-  // ৩. ইউনিক মনীষীদের নামের লিস্ট (ফিল্টার বাটন বানানোর জন্য)
+  // ইউনিক মনীষীদের নামের লিস্ট (ফিল্টার বাটন বানানোর জন্য)
   const authorNames = ["All", aliData.author, umarData.author, galibData.author];
 
-  // ৪. ফিল্টারিং লজিক (মনীষীর নাম + সার্চ কুয়েরি)
+  // ফিল্টারিং লজিক (ক্যাটাগরি + মনীষীর নাম + সার্চ কুয়েরি)
   const filtered = allQuotes.filter(q => {
+    const matchesCategory = category === "All" || q.category === category;
     const matchesAuthor = selectedAuthor === "All" || q.author === selectedAuthor;
     const matchesQuery = 
       q.text.toLowerCase().includes(query.toLowerCase()) || 
       q.author.toLowerCase().includes(query.toLowerCase());
     
-    return matchesAuthor && matchesQuery;
+    return matchesCategory && matchesAuthor && matchesQuery;
   });
 
   return (
@@ -90,7 +97,7 @@ export default function QuoteList({ query }: { query: string }) {
         ) : (
           <div className="col-span-full py-20 text-center">
             <p className="text-emerald-900/40 dark:text-emerald-100/20 font-bold italic">
-              সালা, এই মনীষীর কোনো উক্তি খুঁজে পেলাম না!
+              দুঃখিত, কোনো উক্তি খুঁজে পাওয়া যায়নি!
             </p>
           </div>
         )}
