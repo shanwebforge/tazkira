@@ -4,12 +4,38 @@ import { Sun, Moon, Heart, Plus, Quote as QuoteIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
 
-export default function Header({ bookmarksCount }: { bookmarksCount: number }) {
+export default function Header() {
   const pathname = usePathname();
   const { setTheme, resolvedTheme } = useTheme();
+  const [bookmarksCount, setBookmarksCount] = useState(0);
 
-  // সরাসরি টগল ফাংশন - কোনো মাউন্ট চেক এর জন্য ওয়েট করবে না
+  // ১. বুকমার্ক কাউন্ট আপডেট করার লজিক
+  const updateCount = () => {
+    const saved = localStorage.getItem('user_bookmarks');
+    if (saved) {
+      const list = JSON.parse(saved);
+      setBookmarksCount(list.length);
+    } else {
+      setBookmarksCount(0);
+    }
+  };
+
+  useEffect(() => {
+    updateCount();
+    // অন্য উইন্ডো বা ট্যাবে পরিবর্তন হলে আপডেট হবে
+    window.addEventListener('storage', updateCount);
+    
+    // কাস্টম ইভেন্ট লিসেনার (একই পেজে বুকমার্ক করলে সাথে সাথে আপডেট হওয়ার জন্য)
+    const interval = setInterval(updateCount, 1000); 
+    
+    return () => {
+      window.removeEventListener('storage', updateCount);
+      clearInterval(interval);
+    };
+  }, []);
+
   const toggleTheme = () => {
     const target = resolvedTheme === "dark" ? "light" : "dark";
     setTheme(target);
@@ -25,34 +51,33 @@ export default function Header({ bookmarksCount }: { bookmarksCount: number }) {
             <QuoteIcon size={24} />
           </div>
           <div className="hidden sm:block">
-            <h1 className="text-2xl font-black tracking-tighter text-[#1b4332] dark:text-[#95d5b2]">
-              উক্তি ভল্ট
+            <h1 className="text-2xl font-black  text-[#1b4332] dark:text-[#95d5b2]">
+              BaniBox
             </h1>
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#52b788]">The Quote Vault</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#52b788]">মনীষীদের অমর বাণী</p>
           </div>
         </Link>
         
         <div className="flex items-center gap-2 sm:gap-4">
           
-          {/* Dark Mode Toggle - NO MOUNTED CHECK HERE */}
+          {/* Dark Mode Toggle */}
           <button 
             onClick={toggleTheme} 
             className="p-3 rounded-xl transition-all duration-300 active:scale-90 bg-[#f0f9f4] text-[#2d6a4f] dark:bg-[#1b4332] dark:text-[#95d5b2] relative overflow-hidden h-11 w-11"
             aria-label="Toggle Theme"
           >
-            {/* আমরা দুইটা আইকনই রেন্ডার করব, সিএসএস (dark: class) দিয়ে কন্ট্রোল করব */}
             <Sun size={20} className="absolute inset-0 m-auto transition-all scale-0 dark:scale-100 rotate-90 dark:rotate-0 duration-300" />
             <Moon size={20} className="absolute inset-0 m-auto transition-all scale-100 dark:scale-0 rotate-0 dark:rotate-90 duration-300" />
           </button>
 
-          {/* Bookmarks */}
+          {/* Bookmarks - Path Fixed to /bookmarks */}
           <Link 
-            href="/bookmarks" 
+            href="/pages/bookmarks" 
             className="p-3 rounded-xl transition-all relative bg-[#f0f9f4] text-[#2d6a4f] dark:bg-[#1b4332] dark:text-[#95d5b2]"
           >
-            <Heart size={20} className={pathname === '/bookmarks' ? "fill-current" : ""} />
+            <Heart size={20} className={pathname === '/pages/bookmarks' ? "fill-current text-red-500" : ""} />
             {bookmarksCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#52b788] text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-[#0a1a12]">
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-[#0a1a12] animate-in zoom-in">
                 {bookmarksCount}
               </span>
             )}

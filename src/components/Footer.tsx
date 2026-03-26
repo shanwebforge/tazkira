@@ -1,60 +1,78 @@
-import { Heart } from 'lucide-react';
+'use client';
+
+import { Mail, MessageCircle, Share2, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="w-full py-12 border-t border-emerald-900/5 dark:border-emerald-100/5 bg-[#f7fdfa] dark:bg-[#0a1a12]">
+    <footer className="w-full pt-16 pb-10 border-t border-emerald-900/10 dark:border-emerald-100/5 bg-[#fcfefd] dark:bg-[#040d09]">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+        
+        {/* মেইন গ্রিড */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 items-start">
           
-          {/* ১. ব্র্যান্ডিং ও কপিরাইট */}
-          <div className="flex flex-col items-center md:items-start gap-2">
-            <h2 className="text-[12px] font-black uppercase tracking-[0.4em] text-emerald-900/80 dark:text-emerald-100/80">
-              BaniBox Studio
-            </h2>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-              © {new Date().getFullYear()} সর্বস্বত্ব সংরক্ষিত
+          {/* ১. ব্র্যান্ডিং সেকশন */}
+          <div className="space-y-4 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-3">
+              <div className="w-10 h-10 bg-emerald-700 rounded-xl flex items-center justify-center text-emerald-50 font-black text-xl shadow-inner">
+                ব
+              </div>
+              <h2 className="text-xl font-black tracking-tight text-emerald-950 dark:text-emerald-50">
+                বানি বক্স <span className="text-emerald-600"></span>
+              </h2>
+            </div>
+            <p className="text-sm text-emerald-900/60 dark:text-emerald-100/40 leading-relaxed max-w-xs mx-auto md:mx-0">
+              মনীষীদের অমূল্য বাণী এবং জীবনদর্শনের একটি ডিজিটাল সংকলন। আমাদের লক্ষ্য জ্ঞানের আলো ছড়িয়ে দেওয়া।
             </p>
           </div>
 
-          {/* ২. বাংলাদেশে তৈরি ব্যাজ */}
-          <div className="flex flex-col items-center gap-3">
-             <div className="flex items-center gap-2 px-6 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/30">
-                <span className="text-[10px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest">
-                  বাংলাদেশে তৈরি
-                </span>
-                <Heart className="w-3 h-3 text-rose-500 fill-rose-500 animate-pulse" />
-             </div>
+          {/* ২. কুইক লিংকস */}
+          <div className="flex flex-col items-center md:items-center space-y-4">
+            <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-emerald-900/40 dark:text-emerald-100/30">
+              প্রয়োজনীয় লিংক
+            </h3>
+            <nav className="flex flex-wrap justify-center gap-6 text-[13px] font-bold text-emerald-800 dark:text-emerald-200/60">
+              <Link href="/pages/about" className="hover:text-emerald-600 transition-colors">আমাদের সম্পর্কে</Link>
+              <Link href="/pages/privacy" className="hover:text-emerald-600 transition-colors">প্রাইভেসি পলিসি</Link>
+              <Link href="/pages/contact" className="hover:text-emerald-600 transition-colors">যোগাযোগ</Link>
+            </nav>
           </div>
 
-          {/* ৩. সোশ্যাল আইকন (Pure SVG - No Import Needed) */}
-          <div className="flex flex-col items-center md:items-end gap-4">
-            <div className="flex gap-6 items-center">
-               {/* Github */}
-               <a href="#" className="text-slate-400 hover:text-emerald-600 transition-all">
-                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-               </a>
-               {/* Facebook */}
-               <a href="#" className="text-slate-400 hover:text-emerald-600 transition-all">
-                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-               </a>
-               {/* Twitter (X) */}
-               <a href="#" className="text-slate-400 hover:text-emerald-600 transition-all">
-                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M20 4l-6.768 6.768"></path></svg>
-               </a>
-            </div>
-            
-            {/* পলিসি লিংক */}
-            <div className="flex gap-4">
-              <a href="#" className="text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-emerald-600 transition-colors">গোপনীয়তা নীতি</a>
-              <span className="text-slate-200 dark:text-slate-800">•</span>
-              <a href="#" className="text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-emerald-600 transition-colors">শর্তাবলী</a>
+          {/* ৩. সোশ্যাল ও কানেক্ট (Clean UI) */}
+          <div className="flex flex-col items-center md:items-end space-y-5">
+            <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-emerald-900/40 dark:text-emerald-100/30">
+              যুক্ত থাকুন
+            </h3>
+            <div className="flex gap-3">
+              {/* Facebook SVG - No Library Error */}
+              <a href="#" className="p-3 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition-all shadow-sm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              {/* Messenger */}
+              <a href="#" className="p-3 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition-all shadow-sm">
+                <MessageCircle size={18} strokeWidth={2.5} />
+              </a>
+              {/* Mail */}
+              <a href="mailto:info@banibox.com" className="p-3 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition-all shadow-sm">
+                <Mail size={18} strokeWidth={2.5} />
+              </a>
             </div>
           </div>
-
         </div>
-        
-        {/* ডেকোরেটিভ লাইন */}
-        <div className="mt-10 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent"></div>
+
+        {/* ৪. কপিরাইট ও ডেকোরেশন */}
+        <div className="mt-16 pt-8 border-t border-emerald-900/5 dark:border-emerald-100/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[10px] font-bold text-emerald-900/30 dark:text-emerald-100/20 uppercase tracking-[0.2em]">
+            © {currentYear} BANI BOX STUDIO. ALL RIGHTS RESERVED.
+          </p>
+          <div className="flex items-center gap-2 text-emerald-600/40 dark:text-emerald-400/20">
+            <span className="text-[10px] font-black uppercase tracking-widest">Premium Content</span>
+            <ChevronRight size={12} />
+          </div>
+        </div>
+
       </div>
     </footer>
   );

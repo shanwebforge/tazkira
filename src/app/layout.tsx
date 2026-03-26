@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AuthorsList from "@/components/AuthorsList";
 import { ThemeProvider } from "@/components/ThemeProvider"; // তোর কাস্টম ফাইলটা ইম্পোর্ট করবি
 
 const geistSans = Geist({
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tazkira | মনীষীদের অমর বাণী",
+  title: "BaniBox | মনীষীদের অমর বাণী",
   description: "গালিব, নজরুল ও অন্যান্য মনীষীদের সেরা উক্তির সংগ্রহ",
 };
 
@@ -35,12 +36,12 @@ export default function RootLayout({
         
         {/* লজিকটা এখন ThemeProvider ফাইলের ভেতর থেকে আসবে */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header bookmarksCount={0} />
+          <Header/>
 
           <main className="flex-grow max-w-6xl mx-auto px-6 py-12 w-full">
             {children}
           </main>
-
+          <AuthorsList />
           <Footer />
         </ThemeProvider>
       </body>
